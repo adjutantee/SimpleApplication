@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models
 {
-    public class Receit
+    public class Receipt
     {
         public int Id { get; set; }
         public string Number { get; set; } = String.Empty;
