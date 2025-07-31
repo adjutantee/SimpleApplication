@@ -1,6 +1,6 @@
 ﻿using Application.DTO;
 
-namespace Domain.Interfaces
+namespace Application.Services.Interfaces
 {
     public interface IResourceService
     {
@@ -9,5 +9,10 @@ namespace Domain.Interfaces
         Task<ResourceDto> AddResourceAsync(ResourceDto resourceDto);
         Task<ResourceDto> UpdateResourceByAsync(ResourceDto resourceDto);
         Task<bool> DeleteResourceAsync(int id);
+
+        // Логика работы архива
+        Task<List<ResourceDto>> GetAllArchiveResources();
+        // Архивирование сущности
+        Task<ResourceDto> ArchiveResource(int id);
     }
 }

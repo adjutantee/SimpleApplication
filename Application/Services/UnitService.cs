@@ -1,31 +1,31 @@
 ﻿using Application.DTO;
-using Domain.Interfaces;
+using Application.Services.Interfaces;
 
 namespace Infrastructure.Services
 {
-    public class ResourceService : IResourceService
+    public class UnitService : IUnitService
     {
-        public Task<ResourceDto> AddResourceAsync(ResourceDto resourceDto)
+        public Task<UnitDto> AddUnitAsync(UnitDto unitDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteResourceAsync(int id)
+        public Task<bool> DeleteUnitAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<ResourceDto>> GetAllResourcesAsync()
+        public Task<List<UnitDto>> GetAllUnitsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResourceDto> GetResourceByIdAsync(int id)
+        public Task<UnitDto> GetUnitByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ResourceDto> UpdateResourceByAsync(ResourceDto resourceDto)
+        public Task<UnitDto> UpdateUnitByAsync(UnitDto unitDto)
         {
             throw new NotImplementedException();
         }

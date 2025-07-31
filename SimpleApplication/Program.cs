@@ -1,4 +1,13 @@
+using Application.Mapping;
+using AutoMapper;
+
 var builder = WebApplication.CreateBuilder(args);
+
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+
+
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
