@@ -23,30 +23,31 @@ namespace Infrastructure.Repositories
             return resource;
         }
 
-        public Task<Resource> ArchiveAsync()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Resource> ArchiveAsync(int id)
         {
             var resource = await _context.Resources.FindAsync(id);
 
-            if (resource == null)
+            switch (resource)
             {
-                throw new Exception("Ресурс отсутствует в базе");
+                case null:
+                    throw new Exception("Единица измерения отсутствует в базе");
+
+                case { State: State.Archived }:
+                    resource.State = State.Active;
+                    _context.Resources.Update(resource);
+                    await _context.SaveChangesAsync();
+                    return resource;
+
+                case { State: State.Active }:
+                    resource.State = State.Archived;
+                    _context.Resources.Update(resource);
+                    await _context.SaveChangesAsync();
+
+                    return resource;
+
+                default:
+                    throw new Exception($"Неизвестное состояние единицы измерения: {resource.State}");
             }
-
-            if (resource.State == State.Archived)
-            {
-                return resource;
-            }
-
-            resource.State = State.Archived;
-            _context.Resources.Update(resource);
-            _context.SaveChanges();
-
-            return resource;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -54,7 +55,9 @@ namespace Infrastructure.Repositories
             var resource = await _context.Resources.FindAsync(id);
 
             if (resource == null)
+            {
                 return false;
+            }
 
             _context.Resources.Remove(resource);
             await _context.SaveChangesAsync();

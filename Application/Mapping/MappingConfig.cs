@@ -30,10 +30,6 @@ namespace Application.Mapping
 
                 // ReceiptItem - ReceiptItemDto
                 config.CreateMap<ReceiptItem, ReceiptItemDto>().ReverseMap();
-
-                // CreateResourceDto -> Resource (без State)
-                config.CreateMap<CreateResourceDto, Resource>()
-                    .ForMember(dest => dest.State, opt => opt.MapFrom(_ => State.Active));
             });
 
             return mappingConfig;
