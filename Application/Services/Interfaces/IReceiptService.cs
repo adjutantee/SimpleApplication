@@ -1,4 +1,4 @@
-﻿namespace Domain.Interfaces
+﻿namespace Application.Services.Interfaces
 {
     public interface IReceiptService
     {

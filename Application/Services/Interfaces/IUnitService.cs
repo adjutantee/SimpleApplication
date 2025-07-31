@@ -1,6 +1,6 @@
 ﻿using Application.DTO;
 
-namespace Domain.Interfaces
+namespace Application.Services.Interfaces
 {
     public interface IUnitService
     {
