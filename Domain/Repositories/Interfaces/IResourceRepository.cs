@@ -8,8 +8,8 @@ namespace Domain.Repositories.Interfaces
         Task<Resource> GetByIdAsync(int id);
         Task<Resource> AddAsync(Resource resource);
         Task<Resource> UpdateAsync(Resource resource);
-        Task<bool> DeleteAsync(int id);
         Task<bool> IsInUseAsync(int id);
+        Task<bool> DeleteAsync(int id);
 
         // Логика работы архива
         Task<List<Resource>> GetAllArchiveAsync();

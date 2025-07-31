@@ -1,33 +1,58 @@
 ﻿using Application.DTO;
 using Application.Services.Interfaces;
+using AutoMapper;
+using Domain.Models;
+using Domain.Repositories.Interfaces;
 
 namespace Infrastructure.Services
 {
     public class UnitService : IUnitService
     {
-        public Task<UnitDto> AddUnitAsync(UnitDto unitDto)
+        private readonly IUnitRepository _unitRepository;
+        private IMapper _mapper;
+
+        public UnitService(IUnitRepository unitRepository, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _unitRepository = unitRepository;
+            _mapper = mapper;
         }
 
-        public Task<bool> DeleteUnitAsync(int id)
+        public async Task<UnitDto> AddUnitAsync(UnitDto unitDto)
         {
-            throw new NotImplementedException();
+            var unit = _mapper.Map<Unit>(unitDto);
+            var createdUnit = await _unitRepository.AddAsync(unit);
+
+            return _mapper.Map<UnitDto>(createdUnit);
+
         }
 
-        public Task<List<UnitDto>> GetAllUnitsAsync()
+        public async Task<bool> DeleteUnitAsync(int id)
         {
-            throw new NotImplementedException();
+            bool isDeleted = await _unitRepository.DeleteAsync(id);
+
+            return isDeleted;
         }
 
-        public Task<UnitDto> GetUnitByIdAsync(int id)
+        public async Task<List<UnitDto>> GetAllUnitsAsync()
         {
-            throw new NotImplementedException();
+            var unit = await _unitRepository.GetAllAsync();
+
+            return _mapper.Map<List<UnitDto>>(unit);
         }
 
-        public Task<UnitDto> UpdateUnitByAsync(UnitDto unitDto)
+        public async Task<UnitDto> GetUnitByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var unit = await _unitRepository.GetByIdAsync(id);
+
+            return _mapper.Map<UnitDto>(unit);
+        }
+
+        public async Task<UnitDto> UpdateUnitByAsync(UnitDto unitDto)
+        {
+            var unit = _mapper.Map<Unit>(unitDto);
+            var updatedUnit = await _unitRepository.UpdateAsync(unit);
+
+            return _mapper.Map<UnitDto>(updatedUnit);
         }
     }
 }

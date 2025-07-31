@@ -33,9 +33,9 @@ namespace Application.Services
 
         public async Task<bool> DeleteResourceAsync(int id)
         {
-            var resource = await _resourceRepository.DeleteAsync(id);
+            bool isDeleted = await _resourceRepository.DeleteAsync(id);
 
-            return resource;
+            return isDeleted;
         }
 
         public async Task<List<ResourceDto>> GetAllArchiveResources()
@@ -62,9 +62,9 @@ namespace Application.Services
         public async Task<ResourceDto> UpdateResourceByAsync(ResourceDto resourceDto)
         {
             var resource = _mapper.Map<Resource>(resourceDto);
-            var createdResource = await _resourceRepository.UpdateAsync(resource);
+            var updatedResource = await _resourceRepository.UpdateAsync(resource);
 
-            return _mapper.Map<ResourceDto>(createdResource);
+            return _mapper.Map<ResourceDto>(updatedResource);
         }
     }
 }
