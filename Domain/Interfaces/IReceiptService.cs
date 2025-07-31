@@ -1,6 +1,6 @@
 ﻿namespace Domain.Interfaces
 {
-    internal interface IReceiptService
+    public interface IReceiptService
     {
     }
 }
