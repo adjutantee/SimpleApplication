@@ -4,7 +4,7 @@ using AutoMapper;
 using Domain.Models;
 using Domain.Repositories.Interfaces;
 
-namespace Infrastructure.Services
+namespace Application.Services
 {
     public class UnitService : IUnitService
     {
@@ -26,11 +26,25 @@ namespace Infrastructure.Services
 
         }
 
+        public async Task<UnitDto> ArchiveAsync(int id)
+        {
+            var unit = await _unitRepository.ArchiveAsync(id);
+
+            return _mapper.Map<UnitDto>(unit);
+        }
+
         public async Task<bool> DeleteUnitAsync(int id)
         {
             bool isDeleted = await _unitRepository.DeleteAsync(id);
 
             return isDeleted;
+        }
+
+        public async Task<List<UnitDto>> GetAllArchiveAsync()
+        {
+            var unit = await _unitRepository.GetAllArchiveAsync();
+
+            return _mapper.Map<List<UnitDto>>(unit);
         }
 
         public async Task<List<UnitDto>> GetAllUnitsAsync()
