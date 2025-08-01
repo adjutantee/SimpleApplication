@@ -30,7 +30,7 @@ namespace Infrastructure.Repositories
             switch (resource)
             {
                 case null:
-                    throw new Exception("Единица измерения отсутствует в базе");
+                    throw new Exception("Ресурс отсутствует в базе");
 
                 case { State: State.Archived }:
                     resource.State = State.Active;
@@ -46,7 +46,7 @@ namespace Infrastructure.Repositories
                     return resource;
 
                 default:
-                    throw new Exception($"Неизвестное состояние единицы измерения: {resource.State}");
+                    throw new Exception($"Неизвестное состояние ресурса: {resource.State}");
             }
         }
 
