@@ -24,12 +24,16 @@ namespace Application.Mapping
 
                 config.CreateMap<UnitDto, Unit>()
                     .ForMember(dest => dest.State, opt => opt.MapFrom(src => Enum.Parse<State>(src.State)));
-                    
+
                 // Receipt - ReceiptDto
                 config.CreateMap<Receipt, ReceiptDto>().ReverseMap();
 
                 // ReceiptItem - ReceiptItemDto
                 config.CreateMap<ReceiptItem, ReceiptItemDto>().ReverseMap();
+
+                config.CreateMap<Receipt, ReceiptWithItemsDto>()
+                    .ForMember(dest => dest.Receipt, opt => opt.MapFrom(src => src))
+                    .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.ReceiptItems));
             });
 
             return mappingConfig;
