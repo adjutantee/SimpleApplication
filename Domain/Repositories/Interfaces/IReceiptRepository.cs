@@ -9,7 +9,7 @@ namespace Domain.Repositories.Interfaces
         Task<Receipt> GetByIdAsync(int id);
         Task<Receipt> UpdateAsync(Receipt receipt);
         Task<List<Receipt>> GetAllWithItemsAsync();
-        Task<Receipt> GetByIdWithItemsAsync(int id);
+        Task<Receipt?> GetByIdWithItemsAsync(int id);
         Task<List<Receipt>> GetFilteredAsync(
             DateTime? startDate,
             DateTime? endDate,

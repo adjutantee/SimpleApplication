@@ -24,16 +24,19 @@ namespace Application.Services
 
         public async Task<ReceiptDto> CreateReceiptAsync(ReceiptWithItemsDto dto)
         {
-            // Валидация бизнес-правил
-            if (dto.Receipt == null) throw new ArgumentNullException("Receipt is required");
-            if (dto.Items == null || !dto.Items.Any())
-                throw new InvalidOperationException("Receipt must have at least one item");
+            if (dto.Receipt == null)
+            {
+                throw new ArgumentNullException("Требуется документ поступления");
+            }
 
-            // Маппинг и создание документа
+            if (dto.Items == null || !dto.Items.Any())
+            {
+                throw new InvalidOperationException("В документе поступления должен быть хотя бы один товар");
+            }
+
             var receipt = _mapper.Map<Receipt>(dto.Receipt);
             var createdReceipt = await _receiptRepository.AddAsync(receipt);
 
-            // Создание связанных ресурсов
             foreach (var itemDto in dto.Items)
             {
                 var item = _mapper.Map<ReceiptItem>(itemDto);
@@ -46,10 +49,8 @@ namespace Application.Services
 
         public async Task<bool> DeleteReceiptAsync(int id)
         {
-            // Бизнес-правило: сначала удаляем ресурсы
             await _receiptItemRepository.DeleteByReceiptIdAsync(id);
 
-            // Затем удаляем документ
             return await _receiptRepository.DeleteAsync(id);
         }
 
@@ -62,7 +63,11 @@ namespace Application.Services
         public async Task<ReceiptWithItemsDto> GetReceiptByIdAsync(int id)
         {
             var receipt = await _receiptRepository.GetByIdWithItemsAsync(id);
-            if (receipt == null) return null;
+
+            if (receipt == null)
+            {
+                return null;
+            }
 
             return new ReceiptWithItemsDto
             {
@@ -73,17 +78,21 @@ namespace Application.Services
 
         public async Task<ReceiptDto> UpdateReceiptAsync(ReceiptWithItemsDto dto)
         {
-            // Валидация
-            if (dto.Receipt == null) throw new ArgumentNullException("Receipt is required");
-            if (dto.Items == null || !dto.Items.Any())
-                throw new InvalidOperationException("Receipt must have at least one item");
+            if (dto.Receipt == null)
+            {
+                throw new ArgumentNullException("Требуется документ поступления");
+            }
 
-            // Обновление документа
+            if (dto.Items == null || !dto.Items.Any())
+            {
+                throw new InvalidOperationException("В документе поступления должен быть хотя бы один товар");
+            }
+
             var receipt = _mapper.Map<Receipt>(dto.Receipt);
             await _receiptRepository.UpdateAsync(receipt);
 
-            // Обновление ресурсов: полная замена
             await _receiptItemRepository.DeleteByReceiptIdAsync(receipt.Id);
+
             foreach (var itemDto in dto.Items)
             {
                 var item = _mapper.Map<ReceiptItem>(itemDto);
@@ -110,13 +119,12 @@ namespace Application.Services
 
         private ReceiptFilterDto ValidateFilter(ReceiptFilterDto filter)
         {
-            // Пример бизнес-правила: ограничение периода фильтрации
             if (filter.StartDate.HasValue && filter.EndDate.HasValue)
             {
                 var maxPeriod = TimeSpan.FromDays(365);
                 if ((filter.EndDate.Value - filter.StartDate.Value) > maxPeriod)
                 {
-                    throw new ArgumentException("Filter period cannot exceed 1 year");
+                    throw new ArgumentException("Период фильтрации не может превышать 1 года");
                 }
             }
             return filter;

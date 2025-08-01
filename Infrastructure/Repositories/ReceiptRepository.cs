@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    internal class ReceiptRepository : IReceiptRepository
+    public class ReceiptRepository : IReceiptRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -16,6 +16,11 @@ namespace Infrastructure.Repositories
 
         public async Task<Receipt> AddAsync(Receipt receipt)
         {
+            if (await _context.Receipts.AnyAsync(r => r.Number == receipt.Number))
+            {
+                throw new InvalidOperationException("Документ с таким номером уже существует");
+            }
+
             _context.Receipts.Add(receipt);
             await _context.SaveChangesAsync();
             return receipt;
@@ -36,7 +41,7 @@ namespace Infrastructure.Repositories
             return await _context.Receipts.FindAsync(id);
         }
 
-        public async Task<Receipt> GetByIdWithItemsAsync(int id)
+        public async Task<Receipt?> GetByIdWithItemsAsync(int id)
         {
             return await _context.Receipts
                 .Include(r => r.ReceiptItems)
