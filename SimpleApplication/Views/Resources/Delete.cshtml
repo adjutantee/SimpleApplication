@@ -1,0 +1,45 @@
+﻿@model Application.DTO.ResourceDto
+@{
+    ViewData["Title"] = "Удалить ресурс";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="card-title mb-0">@ViewData["Title"]</h5>
+        </div>
+        <div class="card-body">
+            <h6>Вы уверены, что хотите удалить этот ресурс?</h6>
+
+            <div class="alert alert-warning mt-4">
+                <h6 class="alert-heading">Внимание!</h6>
+                <p class="mb-0">Удаление ресурса приведет к его полному удалению из системы. Это действие нельзя отменить.</p>
+            </div>
+
+            <dl class="row mt-4">
+                <dt class="col-sm-3">ID:</dt>
+                <dd class="col-sm-9">@Model.Id</dd>
+
+                <dt class="col-sm-3">Наименование:</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">Состояние:</dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-@(Model.State == "Active" ? "success" : "secondary")">@Model.State</span>
+                </dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Отмена
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Удалить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
