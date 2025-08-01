@@ -9,5 +9,9 @@ namespace Application.Services.Interfaces
         Task<UnitDto> AddUnitAsync(UnitDto unitDto);
         Task<UnitDto> UpdateUnitByAsync(UnitDto unitDto);
         Task<bool> DeleteUnitAsync(int id);
+
+        // Логика работы архива
+        Task<List<UnitDto>> GetAllArchiveAsync();
+        Task<UnitDto> ArchiveAsync(int id);
     }
 }

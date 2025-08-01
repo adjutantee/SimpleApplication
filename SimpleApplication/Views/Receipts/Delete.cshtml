@@ -1,0 +1,34 @@
+﻿@model Application.DTO.ReceiptDto
+@{
+    ViewData["Title"] = "Удаление поступления";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="card-title mb-0">@ViewData["Title"]</h5>
+        </div>
+        <div class="card-body">
+            <h6>Вы уверены, что хотите удалить это поступление?</h6>
+            <dl class="row mt-3">
+                <dt class="col-sm-3">Номер:</dt>
+                <dd class="col-sm-9">@Model.Number</dd>
+
+                <dt class="col-sm-3">Дата:</dt>
+                <dd class="col-sm-9">@Model.Date.ToString("dd.MM.yyyy")</dd>
+            </dl>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Назад к списку
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Удалить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
